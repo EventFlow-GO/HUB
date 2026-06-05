@@ -120,8 +120,8 @@ export default function LoginForm() {
             backgroundPosition: 'center',
           }}
         />
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-br from-[#002F62]/85 via-[#002F62]/70 to-[#14552E]/60" />
+        {/* Very light overlay — just enough for text readability */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#002F62]/30 via-transparent to-[#002F62]/20" />
 
         {/* Content */}
         <div className="relative z-10">

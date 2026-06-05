@@ -20,35 +20,80 @@ input:-webkit-autofill:active{
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LETTER HOVER ANIMATION
+   LETTER HOVER WAVE ANIMATION
    ═══════════════════════════════════════════════════════════════ */
+
+/* Heading text shadow for readability on lighter background */
+.heading-hover {
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.35),
+    0 0 40px rgba(0, 47, 98, 0.2);
+}
 
 .animated-letter {
   display: inline-block;
   cursor: default;
+  position: relative;
   transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    color 0.3s ease,
-    text-shadow 0.3s ease,
-    filter 0.3s ease;
-  will-change: transform;
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.35s ease,
+    text-shadow 0.35s ease,
+    filter 0.35s ease;
+  will-change: transform, color;
 }
 
+/* ── Hovered letter: big lift + color pop ── */
 .animated-letter:hover {
-  transform: translateY(-8px) scale(1.12) rotate(-2deg);
-  color: #FFCB30;
+  transform: translateY(-14px) scale(1.18) rotate(-3deg);
+  color: #FFCB30 !important;
   text-shadow:
-    0 0 20px rgba(255, 203, 48, 0.5),
-    0 4px 12px rgba(0, 0, 0, 0.2);
-  filter: brightness(1.1);
+    0 0 30px rgba(255, 203, 48, 0.6),
+    0 0 60px rgba(255, 203, 48, 0.3),
+    0 6px 20px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.15);
+  z-index: 10;
 }
 
-/* Neighbours of hovered letter get a subtle bounce */
-.heading-hover:hover .animated-letter {
-  transition:
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    color 0.25s ease,
-    text-shadow 0.25s ease;
+/* ── Wave effect: adjacent siblings get a cascade ── */
+
+/* Immediate next sibling */
+.animated-letter:hover + .animated-letter {
+  transform: translateY(-8px) scale(1.06) rotate(1.5deg);
+  color: #FFCB30;
+  text-shadow: 0 0 15px rgba(255, 203, 48, 0.3);
+  transition-delay: 0.03s;
+}
+
+/* 2nd next sibling */
+.animated-letter:hover + .animated-letter + .animated-letter {
+  transform: translateY(-4px) scale(1.02) rotate(0.5deg);
+  color: rgba(255, 203, 48, 0.7);
+  transition-delay: 0.06s;
+}
+
+/* 3rd next sibling — subtle nudge */
+.animated-letter:hover + .animated-letter + .animated-letter + .animated-letter {
+  transform: translateY(-2px);
+  transition-delay: 0.09s;
+}
+
+/* ── Previous sibling wave (via :has) ── */
+.animated-letter:has(+ .animated-letter:hover) {
+  transform: translateY(-8px) scale(1.06) rotate(-1.5deg);
+  color: #FFCB30;
+  text-shadow: 0 0 15px rgba(255, 203, 48, 0.3);
+  transition-delay: 0.03s;
+}
+
+.animated-letter:has(+ .animated-letter + .animated-letter:hover) {
+  transform: translateY(-4px) scale(1.02) rotate(-0.5deg);
+  color: rgba(255, 203, 48, 0.7);
+  transition-delay: 0.06s;
+}
+
+.animated-letter:has(+ .animated-letter + .animated-letter + .animated-letter:hover) {
+  transform: translateY(-2px);
+  transition-delay: 0.09s;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -147,19 +192,5 @@ input:-webkit-autofill:active{
    ═══════════════════════════════════════════════════════════════ */
 
 .editorial-side {
-  /* Subtle parallax-like vignette */
   isolation: isolate;
-}
-
-.editorial-side::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at 30% 80%,
-    rgba(20, 85, 46, 0.15) 0%,
-    transparent 60%
-  );
 }
