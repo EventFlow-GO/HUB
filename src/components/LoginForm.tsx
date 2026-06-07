@@ -131,7 +131,7 @@ export default function LoginForm() {
     }, 7000);
 
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
+      const response = await fetch('/api/inscricao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
